@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Message from './components/Message';
+import NameForm from './components/NameForms';
 
 
 function App() {
@@ -12,9 +13,13 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div className="form">
+        {/* <div className="form">
           <input type="text" onChange={handleText} />
-        </div>
+        </div> */}
+        <NameForm
+          name={name}
+          onChangeName={x => setName(x)}
+        />
         <Message name={name} />
       </header>
     </div>
