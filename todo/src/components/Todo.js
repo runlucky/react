@@ -5,9 +5,17 @@ import TodoFrom from "./TodoForm";
 function Todo(props) {
   const [edit, setEdit] = useState(false);
 
+  const handleUpdate = todo => {
+    props.onSave(todo);
+    setEdit(false);
+  };
+
   if (edit) {
     return (
-      <TodoFrom {...props} onSave={() => {}} onCancel={() => setEdit(false)} />
+      <TodoFrom {...props}
+        onSave={handleUpdate}
+        onCancel={() => setEdit(false)}
+      />
     );
   }
 
@@ -26,7 +34,7 @@ function Todo(props) {
       <button className="btn" onClick={() => setEdit(true)}>
         Edit
       </button>
-          <button className="btn" onClick={() => props.onDelete(props.ID)}>
+      <button className="btn" onClick={() => props.onDelete(props.ID)}>
         Delete
       </button>
     </div>

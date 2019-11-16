@@ -5,7 +5,7 @@ import Todo from "./components/Todo";
 import TodoForm from "./components/TodoForm";
 
 function App() {
-  const [todoes, setTodos] = useState([
+  const [todoes, setTodoes] = useState([
     {
       ID: uuid.v4(),
       Content: "hoge",
@@ -23,7 +23,7 @@ function App() {
     todo.CreatedAt = now;
     todo.UpdatedAt = now;
 
-    setTodos([...todoes, todo]);
+    setTodoes([...todoes, todo]);
   };
 
   const handleDelete = id => {
@@ -32,16 +32,28 @@ function App() {
 
     const newList = [...todoes];
     newList.splice(index, 1);
-    setTodos(newList);
+    setTodoes(newList);
   };
 
-  const handleUpdate = data => {};
+  const handleUpdate = target => {
+    target.UpdatedAt = new Date().toISOString();
+
+    setTodoes(todoes.map(todo => {
+      if (todo.ID === target.ID) {
+        return target;
+      }
+      return todo;
+    }));
+  };
 
   return (
     <div className="App">
       <TodoForm onSave={handleCreate} />
       {todoes.map(todo => (
-        <Todo key={todo.ID} {...todo} onDelete={handleDelete} />
+        <Todo key={todo.ID} {...todo}
+          onSave={handleUpdate}
+          onDelete={handleDelete}
+        />
       ))}
     </div>
   );
