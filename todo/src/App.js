@@ -1,27 +1,42 @@
 import React, { useState } from 'react';
 import './App.css';
-import Message from './components/Message';
-import NameForm from './components/NameForms';
-
+import Todo from './components/Todo';
 
 function App() {
-  const [name, setName] = useState('');
-  const handleText = (e) => {
-    setName(e.target.value)
-  };
+  const [todos, setTodos] = useState([
+    {
+      ID: 1,
+      Content: 'hoge',
+      Done: true,
+      CreatedAt: (new Date()).toISOString(),
+      UpdatedAt: (new Date()).toISOString(),
+    },
+    {
+      ID: 2,
+      Content: 'hoge2',
+      Done: true,
+      CreatedAt: new Date().toISOString(),
+      UpdatedAt: (new Date()).toISOString(),
+    },
+    {
+      ID: 3,
+      Content: 'hoge3',
+      Done: true,
+      CreatedAt: (new Date()).toISOString(),
+      UpdatedAt: (new Date()).toISOString(),
+    },
+    {
+      ID: 4,
+      Content: 'hoge4',
+      Done: false,
+      CreatedAt: (new Date()).toISOString(),
+      UpdatedAt: (new Date()).toISOString(),
+    },
+  ]);
 
   return (
     <div className="App">
-      <header className="App-header">
-        {/* <div className="form">
-          <input type="text" onChange={handleText} />
-        </div> */}
-        <NameForm
-          name={name}
-          onChangeName={x => setName(x)}
-        />
-        <Message name={name} />
-      </header>
+      {todos.map(todo => <Todo key={todo.ID} {...todo} />)}
     </div>
   );
 }
