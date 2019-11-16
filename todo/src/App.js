@@ -1,42 +1,48 @@
-import React, { useState } from 'react';
-import './App.css';
-import Todo from './components/Todo';
+import React, { useState } from "react";
+import uuid from "uuid";
+import "./App.css";
+import Todo from "./components/Todo";
+import TodoForm from "./components/TodoForm";
 
 function App() {
-  const [todos, setTodos] = useState([
+  const [todoes, setTodos] = useState([
     {
-      ID: 1,
-      Content: 'hoge',
-      Done: true,
-      CreatedAt: (new Date()).toISOString(),
-      UpdatedAt: (new Date()).toISOString(),
-    },
-    {
-      ID: 2,
-      Content: 'hoge2',
+      ID: uuid.v4(),
+      Content: "hoge",
       Done: true,
       CreatedAt: new Date().toISOString(),
-      UpdatedAt: (new Date()).toISOString(),
-    },
-    {
-      ID: 3,
-      Content: 'hoge3',
-      Done: true,
-      CreatedAt: (new Date()).toISOString(),
-      UpdatedAt: (new Date()).toISOString(),
-    },
-    {
-      ID: 4,
-      Content: 'hoge4',
-      Done: false,
-      CreatedAt: (new Date()).toISOString(),
-      UpdatedAt: (new Date()).toISOString(),
-    },
+      UpdatedAt: new Date().toISOString()
+    }
   ]);
+
+  const handleCreate = todo => {
+    todo.ID = uuid.v4();
+
+    const now = new Date().toISOString();
+
+    todo.CreatedAt = now;
+    todo.UpdatedAt = now;
+
+    setTodos([...todoes, todo]);
+  };
+
+  const handleDelete = id => {
+    const index = todoes.findIndex(todo => todo.ID === id);
+    if (index < 0) return;
+
+    const newList = [...todoes];
+    newList.splice(index, 1);
+    setTodos(newList);
+  };
+
+  const handleUpdate = data => {};
 
   return (
     <div className="App">
-      {todos.map(todo => <Todo key={todo.ID} {...todo} />)}
+      <TodoForm onSave={handleCreate} />
+      {todoes.map(todo => (
+        <Todo key={todo.ID} {...todo} onDelete={handleDelete} />
+      ))}
     </div>
   );
 }
